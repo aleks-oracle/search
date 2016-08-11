@@ -20,6 +20,6 @@ public class BridgeRunner {
 	BridgeDepthSearch.Search(m, F, N);
 	System.out.println("Число порожденных вершин: " + BridgeDepthSearch.getN());
 	System.out.println("Общее число решений: " + BridgeDepthSearch.getK());
-
+	sc.close();
     }
 }

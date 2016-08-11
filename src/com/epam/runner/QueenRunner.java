@@ -21,7 +21,7 @@ public class QueenRunner {
 	QueenDepthSearch.Search(m, F, N);
 	System.out.println("Число порожденных вершин: " + QueenDepthSearch.getN());
 	System.out.println("Общее число решений: " + QueenDepthSearch.getK());
-
 	QueenBreadthSearch.Search(N);
+	sc.close();
     }
 }
