@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.epam.depth;
 
 /**
@@ -8,8 +5,8 @@ package com.epam.depth;
  * 
  */
 public class BridgeDepthSearch {
-    private static int k = 0; // общее число решений
-    private static int n = 0; // общее число порожденных вершин
+    private static int k = 0; // РѕР±С‰РµРµ С‡РёСЃР»Рѕ СЂРµС€РµРЅРёР№
+    private static int n = 0; // РѕР±С‰РµРµ С‡РёСЃР»Рѕ РїРѕСЂРѕР¶РґРµРЅРЅС‹С… РІРµСЂС€РёРЅ
 
     public static int getK() {
 	return k;
@@ -21,7 +18,7 @@ public class BridgeDepthSearch {
 
     public static boolean QueensCheck(int m, int[] F) {
 	boolean flag = true;
-	// m-й ферзь не бьет (m-1) предыдущих
+	// m-Р№ С„РµСЂР·СЊ РЅРµ Р±СЊРµС‚ (m-1) РїСЂРµРґС‹РґСѓС‰РёС…
 	for (int i = 0; i < m; i++) {
 	    for (int j = (i + 1); j < (m + 1); j++) {
 		if ((F[i] == F[j]) || (i + F[i] == j + F[j]) || (i - F[i] == j - F[j])) {
@@ -43,11 +40,11 @@ public class BridgeDepthSearch {
 	} else {
 	    for (int i = 0; i < N; i++) {
 		F[m] = i;
-		if (QueensCheck(m, F)) { // если частичная проверка прошла
-					 // успешно- выставить на доску следующего ферзя
+		if (QueensCheck(m, F)) { // РµСЃР»Рё С‡Р°СЃС‚РёС‡РЅР°СЏ РїСЂРѕРІРµСЂРєР° РїСЂРѕС€Р»Р°
+					 // СѓСЃРїРµС€РЅРѕ- РІС‹СЃС‚Р°РІРёС‚СЊ РЅР° РґРѕСЃРєСѓ СЃР»РµРґСѓСЋС‰РµРіРѕ С„РµСЂР·СЏ
 		    Search(m + 1, F, N);
 		}
-		n++; // порождение вершины
+		n++; // РїРѕСЂРѕР¶РґРµРЅРёРµ РІРµСЂС€РёРЅС‹
 	    }
 	}
     }

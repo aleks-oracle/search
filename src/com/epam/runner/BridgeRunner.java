@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.epam.runner;
 
 import java.util.Scanner;
@@ -15,14 +12,14 @@ public class BridgeRunner {
     private static int N;
 
     public static void main(String[] args) {
-	System.out.println("Введите число ферзей");
+	System.out.println("Р’РІРµРґРёС‚Рµ С‡РёСЃР»Рѕ С„РµСЂР·РµР№");
 	Scanner sc = new Scanner(System.in);
-	N = sc.nextInt(); // количество ферзей и размер доски
+	N = sc.nextInt(); // РєРѕР»РёС‡РµСЃС‚РІРѕ С„РµСЂР·РµР№ Рё СЂР°Р·РјРµСЂ РґРѕСЃРєРё
 	int[] F = new int[N];
-	int m = 0; // номер вертикали на шахматной доске
+	int m = 0; // РЅРѕРјРµСЂ РІРµСЂС‚РёРєР°Р»Рё РЅР° С€Р°С…РјР°С‚РЅРѕР№ РґРѕСЃРєРµ
 	BridgeDepthSearch.Search(m, F, N);
-	System.out.println("Число порожденных вершин: " + BridgeDepthSearch.getN());
-	System.out.println("Общее число решений: " + BridgeDepthSearch.getK());
+	System.out.println("Р§РёСЃР»Рѕ РїРѕСЂРѕР¶РґРµРЅРЅС‹С… РІРµСЂС€РёРЅ: " + BridgeDepthSearch.getN());
+	System.out.println("РћР±С‰РµРµ С‡РёСЃР»Рѕ СЂРµС€РµРЅРёР№: " + BridgeDepthSearch.getK());
 
     }
 }

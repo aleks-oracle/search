@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.epam.breadth;
 
 import java.util.ArrayList;
@@ -33,9 +30,9 @@ public class QueenBreadthSearch {
 
 	for (int i = 0; i < N; i++) {
 	    F.add(i);
-	    n++; // порождение первых N вершин
-	    X.add(new ArrayList<Integer>(F)); // преобразовать F в массив и
-					      // добавить в X
+	    n++; // РїРѕСЂРѕР¶РґРµРЅРёРµ РїРµСЂРІС‹С… N РІРµСЂС€РёРЅ
+	    X.add(new ArrayList<Integer>(F)); // РїСЂРµРѕР±СЂР°Р·РѕРІР°С‚СЊ F РІ РјР°СЃСЃРёРІ Рё
+					      // РґРѕР±Р°РІРёС‚СЊ РІ X
 	    F.clear();
 	}
 
@@ -43,26 +40,26 @@ public class QueenBreadthSearch {
 	    int m = X.size();
 	    for (int i = 0; i < m; i++) {
 		for (int j = 0; j < N; j++) {
-		    X.get(i).add(j); // добавляем элемент в конец X[i]
-		    n++; // добавление элемента = порождение вершины
+		    X.get(i).add(j); // РґРѕР±Р°РІР»СЏРµРј СЌР»РµРјРµРЅС‚ РІ РєРѕРЅРµС† X[i]
+		    n++; // РґРѕР±Р°РІР»РµРЅРёРµ СЌР»РµРјРµРЅС‚Р° = РїРѕСЂРѕР¶РґРµРЅРёРµ РІРµСЂС€РёРЅС‹
 		    if (QueensCheck(i, X.get(i).size(), X)) {
 			Y.add(new ArrayList<Integer>(X.get(i)));
 		    }
-		    X.get(i).remove(X.get(i).size() - 1); // удаляем последний
-							  // элемент из X
+		    X.get(i).remove(X.get(i).size() - 1); // СѓРґР°Р»СЏРµРј РїРѕСЃР»РµРґРЅРёР№
+							  // СЌР»РµРјРµРЅС‚ РёР· X
 		}
 	    }
-	    X.clear(); // очищаем X
+	    X.clear(); // РѕС‡РёС‰Р°РµРј X
 
 	    for (ArrayList<Integer> yList : Y) {
-		X.add(new ArrayList<Integer>(yList)); // полное добавление из Y
-						      // в X
+		X.add(new ArrayList<Integer>(yList)); // РїРѕР»РЅРѕРµ РґРѕР±Р°РІР»РµРЅРёРµ РёР· Y
+						      // РІ X
 	    }
 
-	    Y.clear(); // очищаем Y
+	    Y.clear(); // РѕС‡РёС‰Р°РµРј Y
 	}
 
-	// вывод всех решений
+	// РІС‹РІРѕРґ РІСЃРµС… СЂРµС€РµРЅРёР№
 	for (ArrayList<Integer> arrayList : X) {
 	    for (Integer p : arrayList) {
 		System.out.print(p + 1 + " ");
@@ -70,7 +67,7 @@ public class QueenBreadthSearch {
 	    System.out.println();
 	}
 
-	System.out.println("Всего решений: " + X.size());
-	System.out.println("Порожденных вершин: " + n);
+	System.out.println("Р’СЃРµРіРѕ СЂРµС€РµРЅРёР№: " + X.size());
+	System.out.println("РџРѕСЂРѕР¶РґРµРЅРЅС‹С… РІРµСЂС€РёРЅ: " + n);
     }
 }
