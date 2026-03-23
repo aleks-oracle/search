@@ -131,3 +131,23 @@ QueenRunner — simplified to just QueenDepthSearch.Search(N) since the summary 
 
 QueenDepthSearchTest — dropped the @BeforeEach reflection hack (no longer needed since Search(N) resets state itself), added isAllNumeric to filter the new summary
 lines when parsing stdout.
+
+IDEA files
+
+┌───────────────────────────┬─────────────────────────────────────────────────────────┐                                                                              
+│           File            │                         Reason                          │                                                                              
+├───────────────────────────┼─────────────────────────────────────────────────────────┤
+│ .idea/.gitignore          │ The one we just created — excludes workspace.xml/shelf/ │                                                                              
+├───────────────────────────┼─────────────────────────────────────────────────────────┤
+│ .idea/compiler.xml        │ Compiler output path — project-level                    │
+├───────────────────────────┼─────────────────────────────────────────────────────────┤                                                                              
+│ .idea/encodings.xml       │ File encoding settings — project-level                  │
+├───────────────────────────┼─────────────────────────────────────────────────────────┤                                                                              
+│ .idea/jarRepositories.xml │ Maven repo URLs — project-level                         │
+├───────────────────────────┼─────────────────────────────────────────────────────────┤                                                                              
+│ .idea/misc.xml            │ JDK version, project SDK — project-level                │
+├───────────────────────────┼─────────────────────────────────────────────────────────┤                                                                              
+│ .idea/modules.xml         │ Module definition — project-level                       │
+├───────────────────────────┼─────────────────────────────────────────────────────────┤                                                                              
+│ .idea/vcs.xml             │ Git VCS mapping — project-level                         │
+└───────────────────────────┴─────────────────────────────────────────────────────────┘                   
