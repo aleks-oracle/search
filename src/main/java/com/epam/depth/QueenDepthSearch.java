@@ -16,7 +16,7 @@ public class QueenDepthSearch {
 	return n;
     }
 
-    public static boolean QueensCheck(int m, int[] F) {
+    public static boolean queensCheck(int m, int[] F) {
 	boolean flag = true;
 	// m-й ферзь не бьет (m-1) предыдущих
 	for (int i = 0; i < m; i++) {
@@ -30,7 +30,15 @@ public class QueenDepthSearch {
 	return flag;
     }
 
-    public static void Search(int m, int[] F, int N) {
+    public static synchronized void search(int N) {
+	k = 0;
+	n = 0;
+	search(0, new int[N], N);
+	System.out.println("DFS Всего решений: " + k);
+	System.out.println("DFS Порожденных вершин: " + n);
+    }
+
+    private static void search(int m, int[] F, int N) {
 	if (m > (N - 1)) {
 	    k++;
 	    for (int i = 0; i < N; i++) {
@@ -40,9 +48,9 @@ public class QueenDepthSearch {
 	} else {
 	    for (int i = 0; i < N; i++) {
 		F[m] = i;
-		if (QueensCheck(m, F)) { // если частичная проверка прошла
+		if (queensCheck(m, F)) { // если частичная проверка прошла
 					 // успешно - выставить на доску следующего ферзя
-		    Search(m + 1, F, N);
+		    search(m + 1, F, N);
 		}
 		n++; // порождение вершины
 	    }

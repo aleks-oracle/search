@@ -4,15 +4,25 @@ import java.util.ArrayList;
 
 /**
  * @author Aleks
- * 
+ *
  */
 public class QueenBreadthSearch {
+    private static int k = 0; // общее число решений
+    private static int n = 0; // общее число порожденных вершин
 
-    public static boolean QueensCheck(int i, int c, ArrayList<ArrayList<Integer>> X) {
+    public static int getK() {
+	return k;
+    }
+
+    public static int getN() {
+	return n;
+    }
+
+    public static boolean queensCheck(int i, int c, ArrayList<ArrayList<Integer>> X) {
 	boolean flag = true;
 	for (int s = 0; s < (c - 1); s++) {
 	    for (int t = (s + 1); t < c; t++) {
-		if ((X.get(i).get(s) == X.get(i).get(t)) || (s + X.get(i).get(s) == t + X.get(i).get(t))
+		if ((X.get(i).get(s).equals(X.get(i).get(t))) || (s + X.get(i).get(s) == t + X.get(i).get(t))
 			|| (s - X.get(i).get(s) == t - X.get(i).get(t))) {
 		    flag = false;
 		    break;
@@ -22,8 +32,9 @@ public class QueenBreadthSearch {
 	return flag;
     }
 
-    public static void Search(int N) {
-	int n = 0;
+    public static synchronized void search(int N) {
+	k = 0;
+	n = 0;
 	ArrayList<Integer> F = new ArrayList<Integer>();
 	ArrayList<ArrayList<Integer>> X = new ArrayList<ArrayList<Integer>>();
 	ArrayList<ArrayList<Integer>> Y = new ArrayList<ArrayList<Integer>>();
@@ -36,13 +47,13 @@ public class QueenBreadthSearch {
 	    F.clear();
 	}
 
-	for (int k = 1; k < N; k++) {
+	for (int level = 1; level < N; level++) {
 	    int m = X.size();
 	    for (int i = 0; i < m; i++) {
 		for (int j = 0; j < N; j++) {
 		    X.get(i).add(j); // добавляем элемент в конец X[i]
 		    n++; // добавление элемента = порождение вершины
-		    if (QueensCheck(i, X.get(i).size(), X)) {
+		    if (queensCheck(i, X.get(i).size(), X)) {
 			Y.add(new ArrayList<Integer>(X.get(i)));
 		    }
 		    X.get(i).remove(X.get(i).size() - 1); // удаляем последний
@@ -59,6 +70,8 @@ public class QueenBreadthSearch {
 	    Y.clear(); // очищаем Y
 	}
 
+	k = X.size();
+
 	// вывод всех решений
 	for (ArrayList<Integer> arrayList : X) {
 	    for (Integer p : arrayList) {
@@ -67,7 +80,7 @@ public class QueenBreadthSearch {
 	    System.out.println();
 	}
 
-	System.out.println("Всего решений: " + X.size());
-	System.out.println("Порожденных вершин: " + n);
+	System.out.println("BFS Всего решений: " + X.size());
+	System.out.println("BFS Порожденных вершин: " + n);
     }
 }
