@@ -41,11 +41,15 @@ public class QueenDepthSearchTest {
         for (String line : buffer.toString().trim().split("\n")) {
             String[] tokens = line.trim().split("\\s+");
             if (tokens.length == N) {
-                int[] sol = new int[N];
-                for (int i = 0; i < N; i++) {
-                    sol[i] = Integer.parseInt(tokens[i]) - 1;
+                try {
+                    int[] sol = new int[N];
+                    for (int i = 0; i < N; i++) {
+                        sol[i] = Integer.parseInt(tokens[i]) - 1;
+                    }
+                    solutions.add(sol);
+                } catch (NumberFormatException e) {
+                    // skip summary lines (e.g. "DFS Всего решений: 2")
                 }
-                solutions.add(sol);
             }
         }
         return solutions;
