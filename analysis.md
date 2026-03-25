@@ -150,4 +150,74 @@ IDEA files
 │ .idea/modules.xml         │ Module definition — project-level                       │
 ├───────────────────────────┼─────────────────────────────────────────────────────────┤                                                                              
 │ .idea/vcs.xml             │ Git VCS mapping — project-level                         │
-└───────────────────────────┴─────────────────────────────────────────────────────────┘                   
+└───────────────────────────┴─────────────────────────────────────────────────────────┘
+
+⏺ Done. The Claude Code hook is now configured in .claude/settings.json.
+
+Here's how it differs from the git hook:
+
+┌─────────────────┬─────────────────────┬───────────────────────┐                                                                                                    
+│                 │      Git hook       │   Claude Code hook    │                                                                                                    
+├─────────────────┼─────────────────────┼───────────────────────┤                                                                                                    
+│ Triggers when   │ you run git push    │ Claude runs git push  │                                                                                                    
+├─────────────────┼─────────────────────┼───────────────────────┤                                                                                                    
+│ Location        │ .git/hooks/pre-push │ .claude/settings.json │                                                                                                    
+├─────────────────┼─────────────────────┼───────────────────────┤                                                                                                    
+│ Requires Claude │ No                  │ Yes                   │                                                                                                    
+└─────────────────┴─────────────────────┴───────────────────────┘
+
+To activate the Claude hook in this session, open /hooks in Claude Code to reload the config.
+
+⏺ Here's a practical breakdown for your Java/Maven project:
+
+  ---
+Code Formatting (PostToolUse on Write|Edit)
+- Runs a formatter automatically after Claude edits a file
+- Example: run Google Java Formatter or prettier after every file write
+- When to use: when you want consistent formatting without thinking about it — Claude edits a file, it gets formatted immediately
+
+  ---
+Code Quality (PostToolUse on Write|Edit)
+- Run a linter or static analysis after Claude changes code
+- Example: run checkstyle or pmd after editing Java files
+- When to use: when you want instant feedback on quality issues as Claude writes code, rather than finding them later in CI
+
+  ---
+Logging (PreToolUse on Bash)
+- Record every command Claude runs to a log file
+- Example: echo "$(date): $cmd" >> ~/.claude/bash-log.txt
+- When to use: when you want an audit trail of what Claude executed — useful for learning, debugging, or security awareness
+
+  ---
+Validation (PreToolUse on Write|Edit)
+- Check something before Claude writes a file
+- Example: block Claude from editing production files on certain branches, or warn if editing a file above a certain size
+- When to use: as a safety guardrail — "before Claude touches this, verify X"
+
+All three hooks are set up. Here's a summary of what each does:
+
+┌────────────┬───────────────────────────┬───────────────────────────────────────────────────────────────────────────┐
+│    Hook    │           Event           │                               What it does                                │                                               
+├────────────┼───────────────────────────┼───────────────────────────────────────────────────────────────────────────┤                                               
+│ Logging    │ PreToolUse on Bash        │ Logs every command Claude runs to ~/.claude/bash-log.txt with a timestamp │                                             
+├────────────┼───────────────────────────┼───────────────────────────────────────────────────────────────────────────┤                                               
+│ Formatting │ PostToolUse on Write|Edit │ Runs mvn formatter:format after Claude edits any .java file               │                                               
+├────────────┼───────────────────────────┼───────────────────────────────────────────────────────────────────────────┤                                               
+│ Quality    │ PostToolUse on Write|Edit │ Runs mvn checkstyle:check and prints warnings/errors (non-blocking)       │                                               
+└────────────┴───────────────────────────┴───────────────────────────────────────────────────────────────────────────┘
+
+Open /hooks in Claude Code to reload the config and activate them.
+
+
+❯ explain this line "mvn test -q 2>&1 | grep -E "Tests run|BUILD" to me
+
+⏺ Breaking it down piece by piece:
+mvn test — runs Maven tests (you know this one)
+-q — "quiet" mode, suppresses most of Maven's output so it only shows errors and test results
+2>&1 — Maven prints some output to stderr (error stream) and some to stdout (normal stream). This redirects stderr into stdout so both streams go into the pipe
+together
+| — pipe: takes the output of the left command and feeds it as input to the right command
+grep -E "Tests run|BUILD" — filters lines, keeping only those that contain "Tests run" or "BUILD". -E enables extended regex so the | means "or"
+The result: instead of seeing thousands of lines of solution output, you only see the summary lines like:
+Tests run: 42, Failures: 0, Errors: 0, Skipped: 0
+BUILD SUCCESS
