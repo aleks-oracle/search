@@ -15,19 +15,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class QueenBreadthSearchTest {
 
-    private static boolean isValidSolution(int[] F, int N) {
-        if (F.length != N) {
+    private static boolean isValidSolution(int[] f, int n) {
+        if (f.length != n) {
             return false;
         }
-        for (int i = 0; i < N; i++) {
-            for (int j = i + 1; j < N; j++) {
-                if (F[i] == F[j]) {
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (f[i] == f[j]) {
                     return false; // same row
                 }
-                if (i + F[i] == j + F[j]) {
+                if (i + f[i] == j + f[j]) {
                     return false; // same left diagonal
                 }
-                if (i - F[i] == j - F[j]) {
+                if (i - f[i] == j - f[j]) {
                     return false; // same right diagonal
                 }
             }
