@@ -221,3 +221,73 @@ grep -E "Tests run|BUILD" — filters lines, keeping only those that contain "Te
 The result: instead of seeing thousands of lines of solution output, you only see the summary lines like:
 Tests run: 42, Failures: 0, Errors: 0, Skipped: 0
 BUILD SUCCESS
+
+❯ Is there such a thing like "after-merge" tests? To check the project integrity after we merge a PR?
+
+⏺ Yes, it's called post-merge testing or more commonly integration testing in CI/CD. There are a few forms:
+
+In GitHub Actions (most common)
+- A workflow that triggers on push to master — runs automatically after every merge
+- Our maven-test.yml already does this — it runs mvn test on every push to master
+
+Smoke tests
+- A lightweight subset of tests run immediately after merge to verify the basics work
+- Useful when the full test suite is slow
+
+Integration/end-to-end tests
+- Heavier tests that verify the whole system works together, not just individual units
+- Usually run after merge, not on every PR (too slow)
+
+For your project specifically — you already have post-merge coverage because maven-test.yml is configured with:
+on:
+push:
+branches: [develop, master]
+
+So every merge to master triggers a test run automatically on GitHub. You can check the results under the Actions tab in your repo.
+
+Would you like to add a separate, more explicit post-merge workflow?
+
+
+❯ Let's say tests fails after merge to master. What options we have to revert the changes or cancel braking PR?
+
+⏺ At that point the merge is already done, so you have these options:
+
+  ---                                                                                                                                                                  
+1. Revert the PR (safest, recommended)
+- GitHub has a "Revert" button on the merged PR page
+- It creates a new PR that undoes all the changes
+- Clean history — the original merge stays, revert is a new commit
+- Good for teams — everyone can see what happened
+
+2. git revert manually
+- Same as above but from the command line
+- git revert -m 1 <merge-commit-sha> on master, then push
+- -m 1 tells git which parent to revert to (the master branch side)
+
+3. git reset --hard (destructive)
+- Moves master back to before the merge
+- Requires a force push: git push --force origin master
+- Dangerous — rewrites history, can cause problems for anyone who already pulled master
+- Only acceptable for solo projects or if nobody else has pulled
+
+  ---                                                                                                                                                                  
+Best practice order:
+1. Fix forward if the fix is small and obvious
+2. Revert via GitHub button if the fix is complex or unknown
+3. Never force push master in a team setting
+
+For your project (solo), any option works, but the revert PR approach is the best habit to build.
+
+
+❯ I see in paratetrized tests you used "@CsvSource", but I do not see any CSV file in the project structure?
+
+⏺ Good observation! Despite the name, @CsvSource doesn't use a CSV file — the data is written directly inline in the annotation:
+
+@CsvSource({"1,1", "4,2", "5,10", "6,4", "7,40", "8,92"})
+
+Each string like "1,1" is one row of comma-separated values. JUnit parses them directly from the code.
+
+If you actually want to load data from a real CSV file, you'd use a different annotation: @CsvFileSource(resources = "/test-data.csv") — that one reads from a file
+in src/test/resources/.
+
+@CsvSource is just a convenient shorthand for small, fixed datasets that you want to keep close to the test.
