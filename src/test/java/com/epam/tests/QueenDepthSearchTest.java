@@ -16,12 +16,20 @@ import static org.junit.jupiter.api.Assertions.*;
 public class QueenDepthSearchTest {
 
     private static boolean isValidSolution(int[] F, int N) {
-        if (F.length != N) return false;
+        if (F.length != N) {
+            return false;
+        }
         for (int i = 0; i < N; i++) {
             for (int j = i + 1; j < N; j++) {
-                if (F[i] == F[j])             return false; // same row
-                if (i + F[i] == j + F[j])     return false; // same left diagonal
-                if (i - F[i] == j - F[j])     return false; // same right diagonal
+                if (F[i] == F[j]) {
+                    return false; // same row
+                }
+                if (i + F[i] == j + F[j]) {
+                    return false; // same left diagonal
+                }
+                if (i - F[i] == j - F[j]) {
+                    return false; // same right diagonal
+                }
             }
         }
         return true;
@@ -56,30 +64,27 @@ public class QueenDepthSearchTest {
     }
 
     @ParameterizedTest(name = "N={0}: solution count should be {1}")
-    @CsvSource({"1,1", "4,2", "5,10", "6,4", "7,40", "8,92"})
+    @CsvSource({ "1,1", "4,2", "5,10", "6,4", "7,40", "8,92" })
     void solutionCountMatchesKnownValues(int N, int expected) {
         QueenDepthSearch.search(N);
-        assertEquals(expected, QueenDepthSearch.getK(),
-                "Wrong solution count for N=" + N);
+        assertEquals(expected, QueenDepthSearch.getK(), "Wrong solution count for N=" + N);
     }
 
     @ParameterizedTest(name = "N={0}: every printed solution must be valid")
-    @CsvSource({"1", "4", "5", "6", "7", "8"})
+    @CsvSource({ "1", "4", "5", "6", "7", "8" })
     void allPrintedSolutionsAreValid(int N) {
         List<int[]> solutions = captureSolutions(N);
         assertFalse(solutions.isEmpty(), "Expected at least one solution for N=" + N);
         for (int[] sol : solutions) {
-            assertTrue(isValidSolution(sol, N),
-                    "Invalid solution printed: " + Arrays.toString(sol));
+            assertTrue(isValidSolution(sol, N), "Invalid solution printed: " + Arrays.toString(sol));
         }
     }
 
     @ParameterizedTest(name = "N={0}: printed solution count should be {1}")
-    @CsvSource({"1,1", "4,2", "5,10", "6,4", "7,40", "8,92"})
+    @CsvSource({ "1,1", "4,2", "5,10", "6,4", "7,40", "8,92" })
     void printedSolutionCountMatchesKnownValues(int N, int expected) {
         List<int[]> solutions = captureSolutions(N);
-        assertEquals(expected, solutions.size(),
-                "Wrong number of printed solutions for N=" + N);
+        assertEquals(expected, solutions.size(), "Wrong number of printed solutions for N=" + N);
     }
 
     @Test
@@ -98,6 +103,6 @@ public class QueenDepthSearchTest {
     void singleQueenOnSingleSquareIsValid() {
         List<int[]> solutions = captureSolutions(1);
         assertEquals(1, solutions.size());
-        assertArrayEquals(new int[]{0}, solutions.get(0));
+        assertArrayEquals(new int[] { 0 }, solutions.get(0));
     }
 }
