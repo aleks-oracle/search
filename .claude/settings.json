@@ -1,0 +1,33 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); cmd=$(echo \"$input\" | jq -r '.tool_input.command'); echo \"[$(date '+%Y-%m-%d %H:%M:%S')] $cmd\" >> ~/.claude/bash-log.txt; if echo \"$cmd\" | grep -q 'git push'; then echo 'Running mvn test before push...'; mvn test; if [ $? -ne 0 ]; then echo '{\"continue\": false, \"stopReason\": \"Tests failed. Push blocked.\"}'; fi; fi",
+            "statusMessage": "Logging and checking..."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); file=$(echo \"$input\" | jq -r '.tool_input.file_path'); if echo \"$file\" | grep -q '\\.java$'; then mvn formatter:format -q 2>/dev/null || true; fi",
+            "statusMessage": "Formatting Java file..."
+          },
+          {
+            "type": "command",
+            "command": "input=$(cat); file=$(echo \"$input\" | jq -r '.tool_input.file_path'); if echo \"$file\" | grep -q '\\.java$'; then mvn checkstyle:check 2>&1 | grep -E '\\[ERROR\\]|\\[WARN\\]' || true; fi",
+            "statusMessage": "Checking code quality..."
+          }
+        ]
+      }
+    ]
+  }
+}
