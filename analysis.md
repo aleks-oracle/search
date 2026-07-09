@@ -291,3 +291,127 @@ If you actually want to load data from a real CSV file, you'd use a different an
 in src/test/resources/.
 
 @CsvSource is just a convenient shorthand for small, fixed datasets that you want to keep close to the test.
+
+
+❯ list out the names of all tools you have an access to
+
+⏺ Here's what I have access to in this session:
+
+Built-in Claude Code tools
+- Read — read files
+- Write — write files
+- Edit — edit files
+- Bash — run shell commands
+- Glob — find files by pattern
+- Grep — search file contents
+- Agent — spawn subagents
+- Skill — invoke skills
+- ToolSearch — fetch deferred tool schemas
+
+Task & planning tools
+- TaskCreate, TaskUpdate, TaskGet, TaskList, TaskStop, TaskOutput
+- EnterPlanMode, ExitPlanMode
+- EnterWorktree, ExitWorktree
+- CronCreate, CronDelete, CronList
+
+Research tools
+- WebFetch, WebSearch
+
+Notebook
+- NotebookEdit
+
+IDE
+- mcp__ide__getDiagnostics
+
+GitHub MCP tools
+- mcp__github__create_issue, update_issue, get_issue, list_issues, search_issues, add_issue_comment
+- mcp__github__create_pull_request, list_pull_requests, get_pull_request, merge_pull_request, get_pull_request_status, get_pull_request_reviews,
+  get_pull_request_comments, get_pull_request_files, create_pull_request_review, update_pull_request_branch
+- mcp__github__create_branch, list_commits
+- mcp__github__create_repository, fork_repository
+- mcp__github__get_file_contents, create_or_update_file, push_files
+- mcp__github__search_code, search_repositories, search_users
+
+Other
+- AskUserQuestion
+
+
+❯ I was told there 3 levels of claude.md - machine, project and local. Can you find them on my machine?
+
+Searched for 1 pattern (ctrl+o to expand)
+
+⏺ Only one found. Here's what each level means and where it would live:
+┌────────────────┬───────────────────────────────┬──────────────────────────────────────────────────────────────────┐
+│     Level      │             Path              │                             Purpose                              │
+├────────────────┼───────────────────────────────┼──────────────────────────────────────────────────────────────────┤
+│ User (machine) │ ~/.claude/CLAUDE.md           │ Applies to all projects on your machine                          │
+├────────────────┼───────────────────────────────┼──────────────────────────────────────────────────────────────────┤
+│ Project        │ /your-project/CLAUDE.md       │ Applies to this project, committed to git — ✅ you have this one │
+├────────────────┼───────────────────────────────┼──────────────────────────────────────────────────────────────────┤
+│ Local          │ /your-project/CLAUDE.local.md │ Personal overrides for this project, not committed               │
+└────────────────┴───────────────────────────────┴──────────────────────────────────────────────────────────────────┘
+You only have the project-level one. Want me to create a user-level ~/.claude/CLAUDE.md with any global preferences?
+
+
+❯ what else can we store in settings.json apart from hooks?
+
+⏺ Looking at the full schema, here's what you can store:
+
+Permissions
+- allow, deny, ask — control what tools Claude can use without prompting
+- defaultMode — default, plan, acceptEdits, dontAsk
+- additionalDirectories — extra directories Claude can access
+
+Model & behavior
+- model — override the default model (sonnet, opus, haiku)
+- alwaysThinkingEnabled — enable/disable extended thinking
+- effortLevel — low, medium, high
+
+Environment variables
+- env — set env vars for Claude sessions (e.g. DEBUG=true)
+
+MCP servers
+- enabledMcpjsonServers, disabledMcpjsonServers
+
+Display
+- spinnerTipsEnabled — show/hide tips in the spinner
+- spinnerVerbs — customize spinner verbs
+- syntaxHighlightingDisabled
+- language — preferred response language
+
+Attribution
+- attribution.commit — customize or hide the Co-Authored-By line in commits
+- attribution.pr — customize or hide attribution in PRs
+
+Memory
+- autoMemoryEnabled — enable/disable auto-memory for the project
+- autoMemoryDirectory — custom path for memory storage
+
+Cleanup
+- cleanupPeriodDays — how long to keep chat transcripts (default 30 days)
+
+Status line
+- statusLine — custom status line command
+
+
+❯ based on this project experince, can you come up with any potentially useful command I could use?
+
+⏺ Based on what we've done in this project, here are some useful ones:
+
+Already relevant to your workflow
+- /review-pr — ask Claude to review a PR before merging (instead of waiting for the GitHub app)
+- /commit — Claude stages, writes a descriptive commit message and commits for you
+
+For code quality sessions
+- Start a message with think hard when asking Claude to analyze algorithms — the DFS/BFS search code has subtle logic worth deeper reasoning
+
+For planning before changes
+- /plan before asking Claude to make multiple file changes — so you can review the approach before anything is touched (useful given your preference for minimal code
+  changes)
+
+General
+- /clear — clears context when switching to a new unrelated task, keeps Claude focused
+- /memory — view/manage what Claude has remembered about you and this project
+- /doctor — diagnoses common Claude Code setup issues (useful if hooks stop working)
+
+The most immediately useful for you would be /plan before code changes and /memory to review what I've stored about your preferences.
